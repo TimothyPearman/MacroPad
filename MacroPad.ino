@@ -78,16 +78,18 @@ void loop() {
 void checkKey() {
   //iterate through each column
   for (int i = 0; i < Columns; i++) {
+    //scan columns in reverse order and delay between column scans to prevent ghosting
     digitalWrite(columns[3-i], HIGH); // pull column high
-    delay(75);
+    delay(5);
 
     //iterate through each row
     for (int j = 0; j < Rows; j++) {
       //check each row and debounce logic
       int currentState = keyStates[j][3-i][0]; // last known stable state
-      int newState = digitalRead(rows[j]); // New state
-      //Serial.println(currentState); // debug
-      //Serial.println(newState); // debug
+      int newState = digitalRead(rows[j]); // new scanned state
+       // debug
+      //Serial.println(currentState);
+      //Serial.println(newState);
 
       if (newState != currentState && (millis() - keyStates[j][3-i][1]) > debounceDelay) {
         keyStates[j][3-i][1] = millis(); // reset debounce timer on state change
@@ -96,18 +98,20 @@ void checkKey() {
       }
     }
 
-    digitalWrite(columns[3-i], LOW); // pull column low
+    digitalWrite(columns[3-i], LOW); // drop column low
   }
 }
 
 void printState() {
   for (int i = 0; i < Rows; i++) {
-    //Serial.print("column: "); // debug
-    //Serial.println(i); // debug
+     // debug
+    //Serial.print("column: ");
+    //Serial.println(i);
 
     for (int j = 0; j < Columns; j++) {
-      //Serial.print("row: "); // debug
-      //Serial.println(j); // debug
+       // debug
+      //Serial.print("row: ");
+      //Serial.println(j);
 
       //Serial.print("[");
       Serial.print(keyStates[i][j][0]);
@@ -115,13 +119,11 @@ void printState() {
       //Serial.print(keyStates[i][j][1]);
       //Serial.print("]");
     }
-    Serial.println();
+    //Serial.println(); //print each row, or print in one big string for the python script to read easy
   }
   Serial.println("");
-  delay(1000);
-
    // debug
-  Serial.print("iteration");
-  Serial.println(iteration);
-  iteration++;
+  //Serial.print("iteration");
+  //Serial.println(iteration);
+  //iteration++;
 }
