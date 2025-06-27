@@ -5,6 +5,18 @@ import tkinter as tk
 
 root = tk.Tk()                                                                      # create a new Tkinter window
 
+def read_data():
+    with open("temp.txt", "r") as temp:
+        line = temp.readlines()
+        if line:
+            line = line[-1].strip()
+            print("\033[H\033[2B\033[G", end="") # move to top, move down 2 lines
+            print(f"Gui:   {line}")
+        #else:
+            #print("no data found in temp.txt")
+    
+    root.after(10, read_data)
+
 def display_GUI():
     root.title("MacroPad")     
     x = 1920 // 2
@@ -25,4 +37,5 @@ def display_GUI():
 
 if __name__ == "__main__":
     display_GUI()                                                                   # display the GUI
+    read_data()                                                                     # read data from temp
     root.mainloop()                                                                 # start the Tkinter event loop

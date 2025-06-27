@@ -16,10 +16,10 @@ process2 = start_process(TARGET_SCRIPT_2)
 try:                                                                                # Restart if either process dies
     while True:
         if process1.poll() is not None:
-            print(f"{TARGET_SCRIPT_1} stopped. Restarting...")
+            #print(f"{TARGET_SCRIPT_1} stopped. Restarting...")
             process1 = start_process(TARGET_SCRIPT_1)
         if process2.poll() is not None:
-            print(f"{TARGET_SCRIPT_2} stopped. Restarting...")
+            #print(f"{TARGET_SCRIPT_2} stopped. Restarting...")
             process2 = start_process(TARGET_SCRIPT_2)
 
         time.sleep(5)
